@@ -1,0 +1,133 @@
+let loginAccount = 0;
+let isLogin = false;
+do {
+  let userName = prompt("Nhập tên tài khoản:");
+  let passWord = prompt("Nhập mật khẩu:");
+  if (userName === "admin" && passWord === "12345") {
+    alert("Đăng nhập thành công!");
+    isLogin = true;
+    break;
+  } else {
+    loginAccount++;
+    let remain = 3 - loginAccount;
+    if (userName !== "admin" && passWord !== "12345") {
+      alert(`Sai tài khoản và mật khẩu!Còn ${remain} lần`);
+    } else if (userName !== "admin") {
+      alert(`Sai tài khoản!Còn ${remain} lần`);
+    } else {
+      alert(`Sai mật khẩu!Còn ${remain} lần`);
+    }
+  }
+} while (loginAccount < 3);
+if (!isLogin) {
+  alert("Tài khoản đã bị khóa");
+} else {
+  let choice;
+  let libraries = ["Toán", "Văn", "Anh"];
+  do {
+    const menuText = `---Hệ thống thư viện 4.0---
+1.Nhập thêm lô sách mới.
+2.Hiển thị danh sách sách.
+3.Tìm kiếm sách.
+4.Cập nhật tên sách.
+5.Đảo ngược thứ tự kệ sách.
+6.Nhập kho từ nguồn khác.
+7.Thoát chương trình.
+Mời bạn chọn chức năng:
+`;
+    choice = Number(prompt(menuText));
+    switch (choice) {
+      case 1:
+        {
+          let input = prompt("Nhập tên các loại sách (ví dụ: Sử, Địa, Lý):");
+          if (input) {
+            let newBooks = input.split(",");
+            let count = 0;
+            for (let i = 0; i < newBooks.length; i++) {
+              let nameBook = newBooks[i].trim();
+              if (
+                nameBook !== "" &&
+                isNaN(nameBook) &&
+                !libraries.includes(nameBook)
+              ) {
+                libraries.push(nameBook);
+                count++;
+              }
+            }
+            alert(
+              `Đã thêm thành công ${count} cuốn sách mới (Bỏ qua sách trùng hoặc không hợp lệ)`,
+            );
+          }
+          break;
+        }
+      case 2:
+        {
+          console.log("---Danh sách các quyển sách---");
+          if (libraries.length === 0) {
+            console.log("Thư viện đang trống!");
+          } else {
+            let numberical = 1;
+            for (let book of libraries) {
+              console.log(`${numberical} . ${book}`);
+              numberical++;
+            }
+          }
+        }
+        alert("Danh sách đã được thêm!");
+        break;
+      case 3:
+        {
+          let searchBook = prompt("Nhập tên sách mới:");
+          if (libraries.includes(searchBook)) {
+            let countAdd = libraries.indexOf(searchBook);
+            alert(
+              `Sách "${searchBook}" đã được tìm thấy tại vị trí số ${countAdd+1}!`,
+            );
+          } else {
+            alert(`Không tìm thấy sách "${searchBook}" trong kho!`);
+          }
+        }
+        break;
+      case 4:
+        {
+          let textBook = prompt("Nhập tên sách cần sửa:");
+          let foundBook = libraries.indexOf(textBook);
+          if (foundBook !== -1) {
+            let newName = prompt(
+              `Tìm thấy sách "${textBook}" . Nhập sách mới:`,
+            );
+            if (newName) {
+              libraries[foundBook] = newName;
+              alert("Cập nhật thành công!");
+            } else {
+              alert("Sách không tồn tại!");
+            }
+          }
+        }
+        break;
+      case 5:
+        {
+          libraries.reverse();
+          console.log("---Kệ sách sau khi đảo ngược---");
+          for (let index in libraries) {
+            console.log(`Vị trí index [${index}]: ${libraries[index]}`);
+          }
+          alert("Thứ tự trên kệ đã thay đổi");
+        }
+        break;
+      case 6:
+        {
+          let extremeLibrary = ["Sách kỹ năng", "Truyện tranh", "Anime"];
+          libraries = libraries.concat(extremeLibrary);
+          alert("Đã gộp kho sách từ nhóm khác thành công");
+        }
+        break;
+      case 7:
+        alert("Hẹn gặp lại!");
+        break;
+      default:
+        alert("Lựa chọn sai");
+        break;
+    }
+  } while (choice !== 7);
+}
